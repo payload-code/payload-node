@@ -1,0 +1,22 @@
+{
+  "name": "payload-api",
+  "version": "0.1.0",
+  "description": "A simple library to interface with the Payload API. See https://docs.payload.co for more information.",
+  "main": "lib/payload.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/payload-code/payload-node.git"
+  },
+  "author": "Payload",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/payload-code/payload-node/issues"
+  },
+  "homepage": "https://github.com/payload-code/payload-node#readme",
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
+}
