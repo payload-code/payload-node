@@ -42,7 +42,7 @@ creating a customer using the `pl.Customer` object.
 // Create a Customer
 pl.Customer.create({
     email: 'matt.perez@example.com',
-    full_name: 'Matt Perez'
+    name: 'Matt Perez'
 }).then(function(customer) {});
 ```
 
