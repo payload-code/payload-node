@@ -3,6 +3,7 @@
   "version": "0.1.4",
   "description": "A simple library to interface with the Payload API. See https://docs.payload.co for more information.",
   "main": "lib/payload.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

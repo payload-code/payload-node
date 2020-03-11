@@ -16,8 +16,24 @@ Once you've installed the Payload Node.js library to your environment,
 import the `payload` module to get started. **Note:** We recommend
 using the shorthand name of `pl` when importing.
 
+**CommonJS**
+
 ```javascript
 var pl = require('payload-api');
+```
+
+**ESM**
+
+```javascript
+import pl from 'payload-api';
+```
+
+**TypeScript**
+
+*TypeScript declaration is in BETA.* TypeScript import is the same as the ES Module import.
+
+```javascript
+import pl from 'payload-api';
 ```
 
 ### API Authentication
