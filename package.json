@@ -1,6 +1,6 @@
 {
   "name": "payload-api",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A simple library to interface with the Payload API. See https://docs.payload.co for more information.",
   "main": "lib/payload.js",
   "types": "types/index.d.ts",
