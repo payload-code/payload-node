@@ -1,6 +1,6 @@
 {
   "name": "payload-api",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "A simple library to interface with the Payload API. See https://docs.payload.co for more information.",
   "main": "lib/payload.js",
   "types": "types/index.d.ts",
@@ -19,5 +19,14 @@
   "homepage": "https://github.com/payload-code/payload-node#readme",
   "dependencies": {
     "axios": "^0.18.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "babel-plugin-transform-es2015-template-literals": "^6.22.0",
+    "babelify": "^10.0.0",
+    "core-js": "^3.6.4",
+    "proxy-polyfill": "^0.3.1"
   }
 }
