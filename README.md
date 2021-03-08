@@ -107,7 +107,7 @@ Use the `pl.attr` attribute helper
 interface to write powerful queries with a little extra syntax sugar.
 
 ```python
-pl.Payments.filter_by(
+pl.Payment.filter_by(
     pl.attr.amount.gt(100),
     pl.attr.amount.lt(200),
     pl.attr.description.contains("Test"),
