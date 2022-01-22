@@ -1,6 +1,6 @@
 {
   "name": "payload-api",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "A simple library to interface with the Payload API. See https://docs.payload.co for more information.",
   "main": "lib/payload.js",
   "types": "types/index.d.ts",
@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/payload-code/payload-node#readme",
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.2"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
