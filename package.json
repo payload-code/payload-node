@@ -1,6 +1,6 @@
 {
   "name": "payload-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple library to interface with the Payload API. See https://docs.payload.co for more information.",
   "main": "lib/payload.js",
   "types": "types/index.d.ts",
@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/payload-code/payload-node#readme",
   "dependencies": {
-    "armrest": "file:../armrest-node"
+    "@armrest/client": "^0.1.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.1",
