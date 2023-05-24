@@ -96,9 +96,9 @@ const results = pl.session(pl.Payment).filter(
     pl.Payment.amount.lt(200),
     pl.or(
         pl.Payment.description.contains("Test1"),
-        pl.Payment.description.contains("Test2"),
+        pl.Payment.description.contains("Test2")
     )
-    pl.Payment.created_at.gt(new DateTime(2019,2,1))
+    pl.Payment.created_at.gt(new Date(2019,2,1))
 )
 ```
 
