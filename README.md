@@ -91,7 +91,7 @@ const results = pl.select(pl.Customer).filterBy({ email: 'matt.perez@example.com
 Write complex queries using `filter`.
 
 ```javascript
-const results = pl.session(pl.Payment).filter(
+const results = pl.select(pl.Payment).filter(
     pl.Payment.amount.gt(100),
     pl.Payment.amount.lt(200),
     pl.or(
