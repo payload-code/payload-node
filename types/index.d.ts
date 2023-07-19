@@ -38,6 +38,8 @@ declare module 'payload-api' {
 
         class AccessToken extends ARMObject {}
 
+        class ClientKey extends AccessToken {}
+
         class Account extends ARMObject {}
 
         class Customer extends Account {}
