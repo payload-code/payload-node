@@ -9,7 +9,7 @@ import {
 } from './__fixtures__/accounts'
 
 describe('Test All Endpoints', () => {
-  const unselectable = ['APIKey', 'AccessToken']
+  const unselectable = ['APIKey', 'AccessToken', 'ClientToken']
   const selectable = Object.keys(objects).filter(
     (n) => !unselectable.includes(n),
   )
