@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 
-import payload from '../lib/payload'
-import * as objects from '../lib/objects'
+import payload from '../src/payload'
+import * as objects from '../src/objects'
 
 import {
   customerFixture,

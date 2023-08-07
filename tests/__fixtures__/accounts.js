@@ -1,4 +1,4 @@
-import payload from '../../lib/payload'
+import payload from '../../src/payload'
 
 export function customerFixture() {
   return payload.create(
