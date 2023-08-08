@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv'
 
-import payload from '../../lib/payload'
+import payload from '../../src/payload'
 
 dotenv.config()
 
