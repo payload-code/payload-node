@@ -1,6 +1,6 @@
 {
   "name": "payload-api",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A simple library to interface with the Payload API. See https://docs.payload.co for more information.",
   "main": "lib/cjs/payload.js",
   "module": "lib/mjs/payload.js",
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/payload-code/payload-node#readme",
   "dependencies": {
-    "@armrest/client": "^0.1.7"
+    "@armrest/client": "^0.1.8"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.9",
