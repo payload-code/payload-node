@@ -1,9 +1,9 @@
 module.exports = {
   env: {
-    browser: true,
+    node: true,
     es2021: true,
   },
-  extends: 'airbnb-base',
+  extends: ['airbnb-base'],
   overrides: [
     {
       files: ['**/*.test.js'],
@@ -26,5 +26,15 @@ module.exports = {
     curly: [2, 'multi-or-nest', 'consistent'],
     'max-len': [2, { code: 100 }],
     'nonblock-statement-body-position': [2, 'any'],
+    'import/no-unresolved': ['error', { commonjs: true }],
   },
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".js"],
+      },
+      exports: {},
+    },
+  },
+  plugins: ['import']
 }
