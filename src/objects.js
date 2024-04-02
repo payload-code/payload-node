@@ -9,7 +9,7 @@ export class ClientToken extends AccessToken {
 }
 
 export class OAuthToken extends Armrest.Model {
-  static spec = { endpoint: '/oauth/token' }
+  static spec = { endpoint: '/oauth/token', object: 'oauth_token' }
 }
 
 export class Account extends Armrest.Model {}
