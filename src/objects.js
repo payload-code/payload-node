@@ -8,6 +8,10 @@ export class ClientToken extends AccessToken {
   static spec = { object: 'access_token', polymorphic: { type: 'client' } }
 }
 
+export class OAuthToken extends Armrest.Model {
+  static spec = { endpoint: '/oauth/token', object: 'oauth_token' }
+}
+
 export class Account extends Armrest.Model {}
 
 export class Customer extends Armrest.Model {
