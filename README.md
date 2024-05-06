@@ -1,6 +1,6 @@
 # Payload Node.js Library
 
-A Node.js library for integrating [Payload](https://payload.co).
+A Node.js library for integrating [Payload](https://payload.com).
 
 ## Installation
 
@@ -105,4 +105,4 @@ const results = pl.select(pl.Payment).filter(
 ## Documentation
 
 To get further information on Payload's Node.js library and API capabilities,
-visit the unabridged [Payload Documentation](https://docs.payload.co/?javascript).
+visit the unabridged [Payload Documentation](https://docs.payload.com/?javascript).
