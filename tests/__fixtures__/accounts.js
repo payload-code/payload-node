@@ -16,6 +16,7 @@ export function processingAccountFixture() {
       legal_entity: {
         legal_name: 'Test',
         type: 'INDIVIDUAL_SOLE_PROPRIETORSHIP',
+        country: 'US',
         ein: '23 423 4234',
         street_address: '123 Example St',
         unit_number: 'Suite 1',

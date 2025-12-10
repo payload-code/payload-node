@@ -1,16 +1,78 @@
 import { faker } from '@faker-js/faker'
 
 import payload from '../src/payload'
-import * as objects from '../src/objects'
 
 import {
   customerFixture,
   processingAccountFixture,
 } from './__fixtures__/accounts'
+import {
+  billingScheduleFixture,
+  billingScheduleV2Fixture,
+} from './__fixtures__/billing'
 
-describe('Test All Endpoints', () => {
-  const unselectable = ['APIKey', 'AccessToken', 'ClientToken', 'OAuthToken']
-  const selectable = Object.keys(objects).filter(
+const BASE_UNSELECTABLE = [
+  'APIKey',
+  'AccessToken',
+  'ClientToken',
+  'OAuthToken',
+]
+
+const V1_ONLY_OBJECTS = [
+  'Customer',
+  'ProcessingAccount',
+  'BillingCharge',
+  'Org',
+  'Ledger',
+  'LineItem',
+  'ChargeItem',
+  'PaymentItem',
+  'LegalEntity',
+  'PaymentLink',
+  'PaymentActivation',
+  'AppSettings',
+]
+
+const V2_ONLY_OBJECTS = [
+  'Profile',
+  'BillingItem',
+  'InvoiceItem',
+  'PaymentAllocation',
+  'Stakeholder',
+  'Transfer',
+  'TransactionOperation',
+]
+
+const SHARED_OBJECTS = [
+  'Account',
+  'Transaction',
+  'Payment',
+  'Refund',
+  'Credit',
+  'Deposit',
+  'PaymentMethod',
+  'Card',
+  'BankAccount',
+  'BillingSchedule',
+  'Invoice',
+  'ProcessingSettings',
+  'ProcessingAgreement',
+  'Intent',
+  'Entity',
+  'CheckFront',
+  'CheckBack',
+  'Webhook',
+  'WebhookLog',
+  'User',
+]
+
+describe('Test All Endpoints (V1 API)', () => {
+  const unselectable = [
+    ...BASE_UNSELECTABLE,
+    ...V2_ONLY_OBJECTS,
+    'BillingCharge', // Tested through billing schedule relationship below (V1)
+  ]
+  const selectable = [...V1_ONLY_OBJECTS, ...SHARED_OBJECTS].filter(
     (n) => !unselectable.includes(n),
   )
 
@@ -18,6 +80,22 @@ describe('Test All Endpoints', () => {
     expect(
       Array.isArray(await payload.select(payload[obj]).limit(1).all()),
     ).toBe(true)
+  })
+})
+
+describe('Test All Endpoints (V2 API)', () => {
+  const unselectable = [
+    ...BASE_UNSELECTABLE,
+    'BillingItem', // Tested through billing schedule relationship below (V2)
+  ]
+  const selectable = [...V2_ONLY_OBJECTS, ...SHARED_OBJECTS].filter(
+    (n) => !unselectable.includes(n),
+  )
+
+  test.each(selectable)('select V2 objects', async (obj) => {
+    const plV2 = payload.Session(payload.apiKey, { apiVersion: 2 })
+    const result = await plV2.select(plV2[obj]).limit(1).all()
+    expect(Array.isArray(result)).toBe(true)
   })
 })
 
@@ -126,5 +204,46 @@ describe('Test Account', () => {
       new Date(orderedAccounts[1].created_at) <=
         new Date(orderedAccounts[2].created_at),
     ).toBe(true)
+  })
+})
+
+describe('Test BillingSchedule and BillingCharge (V1 API)', () => {
+  let cust
+  let proc
+  let billingSchedule
+
+  beforeAll(async () => {
+    cust = await customerFixture()
+    proc = await processingAccountFixture()
+    billingSchedule = await billingScheduleFixture(cust, proc)
+  })
+
+  test('access charge through billing schedule relationship', () => {
+    const charge = billingSchedule.charges[0]
+    expect(charge).toBeInstanceOf(payload.BillingCharge)
+    expect(charge.amount).toBe(39.99)
+    expect(charge.billing_schedule_id).toBe(billingSchedule.id)
+  })
+})
+
+describe('Test BillingSchedule and BillingItem (V2 API)', () => {
+  let cust
+  let proc
+  let billingSchedule
+  let plV2
+
+  beforeAll(async () => {
+    cust = await customerFixture()
+    proc = await processingAccountFixture()
+    plV2 = payload.Session(payload.apiKey, { apiVersion: 2 })
+    billingSchedule = await billingScheduleV2Fixture(plV2, cust, proc)
+  })
+
+  test('access item through billing schedule relationship', () => {
+    const item = billingSchedule.items[0]
+    expect(item).toBeInstanceOf(plV2.BillingItem)
+    expect(item.type).toBe('line_item')
+    expect(item.line_item.value).toBe(39.99)
+    expect(item.billing_schedule_id).toBe(billingSchedule.id)
   })
 })

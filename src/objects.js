@@ -143,3 +143,52 @@ export class Webhook extends Armrest.Model {}
 export class WebhookLog extends Armrest.Model {}
 
 export class PaymentActivation extends Armrest.Model {}
+
+// Introduced in API v2
+export class Profile extends Armrest.Model {
+  static spec = { object: 'profile' }
+}
+
+export class BillingItem extends Armrest.Model {
+  static spec = { object: 'billing_item' }
+}
+
+export class Intent extends Armrest.Model {
+  static spec = { object: 'intent' }
+}
+
+export class InvoiceItem extends Armrest.Model {
+  static spec = { object: 'invoice_item' }
+}
+
+export class PaymentAllocation extends Armrest.Model {
+  static spec = { object: 'payment_allocation' }
+}
+
+export class Entity extends Armrest.Model {
+  static spec = { object: 'entity', endpoint: '/entities' }
+}
+
+export class Stakeholder extends Armrest.Model {
+  static spec = { object: 'stakeholder' }
+}
+
+export class ProcessingAgreement extends Armrest.Model {
+  static spec = { object: 'processing_agreement' }
+}
+
+export class Transfer extends Armrest.Model {
+  static spec = { object: 'transfer' }
+}
+
+export class TransactionOperation extends Armrest.Model {
+  static spec = { object: 'transaction_operation' }
+}
+
+export class CheckFront extends Armrest.Model {
+  static spec = { object: 'check_front' }
+}
+
+export class CheckBack extends Armrest.Model {
+  static spec = { object: 'check_back' }
+}
