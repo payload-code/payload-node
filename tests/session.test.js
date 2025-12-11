@@ -59,7 +59,6 @@ describe('PayloadArmrest.Session', () => {
 
       expect(spy).toHaveBeenCalledTimes(1)
       expect(spy).toHaveBeenCalledWith(apiKey, {
-        apiUrl: `${payload.apiUrl}/v2`,
         defaultHeaders: {
           'X-API-Version': 2,
         },
@@ -68,9 +67,27 @@ describe('PayloadArmrest.Session', () => {
       spy.mockRestore()
     })
 
-    test('always uses Payload API URL', () => {
-      const session = payload.Session('test-key', { apiVersion: 1 })
-      expect(session.apiUrl).toBe(payload.apiUrl)
+    test('session inherits correct API URL from PayloadArmrest instance', () => {
+      const sessionV1 = payload.Session('test-key', { apiVersion: 1 })
+      const sessionV2 = payload.Session('test-key', { apiVersion: 2 })
+
+      // Both sessions should use the same API URL from the PayloadArmrest instance
+      expect(sessionV1.apiUrl).toBe(payload.apiUrl)
+      expect(sessionV2.apiUrl).toBe(payload.apiUrl)
+      expect(sessionV1.apiUrl).toBe(sessionV2.apiUrl)
+    })
+
+    test('session API URL matches PayloadArmrest apiUrl property', () => {
+      const originalApiUrl = payload.apiUrl
+      const testApiUrl = 'https://test-api.example.com'
+
+      // Temporarily set a different API URL
+      payload.apiUrl = testApiUrl
+
+      const session = payload.Session('test-key', { apiVersion: 2 })
+      expect(session.apiUrl).toBe(testApiUrl)
+
+      payload.apiUrl = originalApiUrl
     })
 
     test('session has correct apiKey', () => {

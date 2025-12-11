@@ -10,17 +10,11 @@ class PayloadArmrest extends Armrest {
     const opts = options ?? {}
     const apiVersion = opts.apiVersion ?? DEFAULT_API_VERSION
 
-    const baseUrl = (this.apiUrl || URL).replace(/\/$/, '')
-
-    let apiUrl = baseUrl
-    if (apiVersion !== 1) apiUrl = `${baseUrl}/v${apiVersion}`
-
     const defaultHeaders = {
       'X-API-Version': apiVersion,
     }
 
     const session = super.Session(apiKey, {
-      apiUrl,
       defaultHeaders,
     })
 
