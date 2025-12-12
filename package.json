@@ -30,7 +30,8 @@
   },
   "homepage": "https://github.com/payload-code/payload-node#readme",
   "dependencies": {
-    "@armrest/client": "^0.2.2"
+    "@armrest/client": "^0.2.2",
+    "date-fns": "^4.1.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.9",
@@ -52,6 +53,7 @@
     ],
     "setupFiles": [
       "./tests/__setup__/globalSetup.js"
-    ]
+    ],
+    "maxWorkers": 1
   }
 }

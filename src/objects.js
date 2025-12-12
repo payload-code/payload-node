@@ -114,6 +114,15 @@ export class BankAccount extends PaymentMethod {
     if (!this.bank_account) this.bank_account = {}
     this.bank_account.routing_number = routing_number
   }
+
+  get account_type() {
+    return this.bank_account.account_type
+  }
+
+  set account_type(account_type) {
+    if (!this.bank_account) this.bank_account = {}
+    this.bank_account.account_type = account_type
+  }
 }
 
 export class BillingSchedule extends Armrest.Model {}
