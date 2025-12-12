@@ -11,7 +11,7 @@ export function billingScheduleFixture(customer, processingAccount) {
       processing_id: processingAccount.id,
       charges: payload.BillingCharge({
         type: 'option_1',
-        amount: 39.99,
+        amount: 5.00,
       }),
     }),
   )
@@ -35,7 +35,7 @@ export function billingScheduleV2Fixture(session, customer, processingAccount) {
         session.BillingItem({
           type: 'line_item',
           line_item: {
-            value: 39.99,
+            value: 5.00,
             value_units: 'number',
             qty: 1,
           },

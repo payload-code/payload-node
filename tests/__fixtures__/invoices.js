@@ -7,7 +7,24 @@ export function invoiceFixture(processingAccount, customerAccount) {
     processing_id: processingAccount.id,
     due_date: format(new Date(), 'yyyy-MM-dd'),
     customer_id: customerAccount.id,
-    items: [payload.ChargeItem({ amount: 29.99 })],
+    items: [payload.ChargeItem({ amount: 4.99 })],
+  })
+}
+
+export function invoiceV2Fixture(session, processingAccount, customerAccount) {
+  return session.Invoice.create({
+    due_date: format(new Date(), 'yyyy-MM-dd'),
+    payer: {
+      account_id: customerAccount.id,
+    },
+    items: [
+      session.InvoiceItem({
+        type: 'line_item',
+        line_item: {
+          value: 4.99,
+        },
+      }),
+    ],
   })
 }
 

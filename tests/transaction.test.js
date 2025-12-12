@@ -2,13 +2,13 @@ import payload from '../src/payload'
 import { processingAccountFixture } from './__fixtures__/accounts'
 import { cardPaymentFixture } from './__fixtures__/payments'
 
-describe('Test Transaction', () => {
+describe('Test Transaction (V1 API)', () => {
   let cardPayment
-  let proc
+  let processingAccount
 
   beforeAll(async () => {
-    proc = await processingAccountFixture()
-    cardPayment = await cardPaymentFixture(proc)
+    processingAccount = await processingAccountFixture()
+    cardPayment = await cardPaymentFixture(payload, processingAccount)
   })
 
   test('transaction ledger empty', async () => {
@@ -23,8 +23,8 @@ describe('Test Transaction', () => {
   test('unified payout batching', async () => {
     await payload.create(
       payload.Refund({
-        amount: 10,
-        processing_id: proc.id,
+        amount: 5.00,
+        processing_id: processingAccount.id,
         payment_method: payload.Card({
           card_number: '4242 4242 4242 4242',
           expiry: '12/25',
@@ -36,11 +36,11 @@ describe('Test Transaction', () => {
     const transactions = await payload
       .select(payload.Transaction)
       .select('*', 'ledger')
-      .filterBy({ type: 'refund', processing_id: proc.id })
+      .filterBy({ type: 'refund', processing_id: processingAccount.id })
       .all()
 
     expect(transactions.length).toBe(1)
-    expect(transactions[0].processing_id).toBe(proc.id)
+    expect(transactions[0].processing_id).toBe(processingAccount.id)
   })
 
   test('get transactions', async () => {

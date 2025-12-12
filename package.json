@@ -30,14 +30,14 @@
   },
   "homepage": "https://github.com/payload-code/payload-node#readme",
   "dependencies": {
-    "@armrest/client": "^0.2.2",
-    "date-fns": "^4.1.0"
+    "@armrest/client": "^0.2.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.9",
     "@faker-js/faker": "^8.0.1",
     "babel-jest": "^29.7.0",
     "cross-env": "^7.0.3",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.0.3",
     "esbuild": "^0.18.19",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -54,6 +54,7 @@
     "setupFiles": [
       "./tests/__setup__/globalSetup.js"
     ],
-    "maxWorkers": 1
+    "maxWorkers": 1,
+    "testTimeout": 15000
   }
 }

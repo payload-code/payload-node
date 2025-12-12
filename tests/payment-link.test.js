@@ -6,28 +6,28 @@ import {
 } from './__fixtures__/payment-links'
 
 describe('Test Payment Link', () => {
-  let proc
+  let processingAccount
 
   beforeAll(async () => {
-    proc = await processingAccountFixture()
+    processingAccount = await processingAccountFixture()
   })
 
   test('create payment link one time', async () => {
-    const paymentLink = await paymentLinkOneTimeFixture(proc)
+    const paymentLink = await paymentLinkOneTimeFixture(processingAccount)
 
-    expect(paymentLink.processing_id).toBe(proc.id)
+    expect(paymentLink.processing_id).toBe(processingAccount.id)
     expect(paymentLink.type).toBe('one_time')
   })
 
   test('create payment link reusable', async () => {
-    const paymentLink = await paymentLinkReusableFixture(proc)
+    const paymentLink = await paymentLinkReusableFixture(processingAccount)
 
-    expect(paymentLink.processing_id).toBe(proc.id)
+    expect(paymentLink.processing_id).toBe(processingAccount.id)
     expect(paymentLink.type).toBe('reusable')
   })
 
   test('delete payment link reusable', async () => {
-    const paymentLink = await paymentLinkReusableFixture(proc)
+    const paymentLink = await paymentLinkReusableFixture(processingAccount)
     await paymentLink.delete()
 
     await expect(payload.PaymentLink.get(paymentLink.id)).rejects.toThrow(
@@ -36,7 +36,7 @@ describe('Test Payment Link', () => {
   })
 
   test('delete payment link one time', async () => {
-    const paymentLink = await paymentLinkOneTimeFixture(proc)
+    const paymentLink = await paymentLinkOneTimeFixture(processingAccount)
     await paymentLink.delete()
 
     await expect(payload.PaymentLink.get(paymentLink.id)).rejects.toThrow(

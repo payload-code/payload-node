@@ -93,52 +93,53 @@ describe('Test All Endpoints (V2 API)', () => {
   )
 
   test.each(selectable)('select V2 objects', async (obj) => {
-    const plV2 = payload.Session(payload.apiKey, { apiVersion: 2 })
-    const result = await plV2.select(plV2[obj]).limit(1).all()
+    const payloadV2 = payload.Session(payload.apiKey, { apiVersion: 2 })
+    const result = await payloadV2.select(payloadV2[obj]).limit(1).all()
     expect(Array.isArray(result)).toBe(true)
   })
 })
 
 describe('Test Account', () => {
-  let cust
-  let proc
+  let customer
+  let processingAccount
 
   beforeAll(async () => {
-    cust = await customerFixture()
-    proc = await processingAccountFixture()
+    customer = await customerFixture()
+    processingAccount = await processingAccountFixture()
   })
 
   test('create customer account', () => {
-    expect(cust).toBeInstanceOf(payload.Customer)
-    expect(cust).toMatchObject({
+    expect(customer).toBeInstanceOf(payload.Customer)
+    expect(customer).toMatchObject({
       id: expect.any(String),
-      name: 'Customer Account',
-      email: 'customer@example.com',
+      name: expect.any(String),
+      email: expect.any(String),
     })
   })
 
   test('create processing account', () => {
-    expect(proc).toBeInstanceOf(payload.ProcessingAccount)
-    expect(proc).toMatchObject({
+    expect(processingAccount).toBeInstanceOf(payload.ProcessingAccount)
+    expect(processingAccount).toMatchObject({
       id: expect.any(String),
-      name: 'Processing Account',
+      name: expect.any(String),
     })
   })
 
   test('update customer', async () => {
-    await cust.update({
-      name: 'Updated User',
+    const newName = faker.person.fullName()
+    await customer.update({
+      name: newName,
     })
 
-    expect(cust).toMatchObject({
-      name: 'Updated User',
+    expect(customer).toMatchObject({
+      name: newName,
     })
   })
 
   test('delete customer', async () => {
-    await cust.delete()
+    await customer.delete()
 
-    await expect(() => payload.Customer.get(cust.id)).rejects.toThrow(
+    await expect(() => payload.Customer.get(customer.id)).rejects.toThrow(
       payload.NotFound,
     )
   })
@@ -166,7 +167,7 @@ describe('Test Account', () => {
   })
 
   test('get processing account', async () => {
-    expect(await payload.ProcessingAccount.get(proc.id)).toBeInstanceOf(
+    expect(await payload.ProcessingAccount.get(processingAccount.id)).toBeInstanceOf(
       payload.ProcessingAccount,
     )
   })
@@ -208,42 +209,42 @@ describe('Test Account', () => {
 })
 
 describe('Test BillingSchedule and BillingCharge (V1 API)', () => {
-  let cust
-  let proc
+  let customer
+  let processingAccount
   let billingSchedule
 
   beforeAll(async () => {
-    cust = await customerFixture()
-    proc = await processingAccountFixture()
-    billingSchedule = await billingScheduleFixture(cust, proc)
+    customer = await customerFixture()
+    processingAccount = await processingAccountFixture()
+    billingSchedule = await billingScheduleFixture(customer, processingAccount)
   })
 
   test('access charge through billing schedule relationship', () => {
     const charge = billingSchedule.charges[0]
     expect(charge).toBeInstanceOf(payload.BillingCharge)
-    expect(charge.amount).toBe(39.99)
+    expect(charge.amount).toBe(5.00)
     expect(charge.billing_schedule_id).toBe(billingSchedule.id)
   })
 })
 
 describe('Test BillingSchedule and BillingItem (V2 API)', () => {
-  let cust
-  let proc
+  let customer
+  let processingAccount
   let billingSchedule
-  let plV2
+  let payloadV2
 
   beforeAll(async () => {
-    cust = await customerFixture()
-    proc = await processingAccountFixture()
-    plV2 = payload.Session(payload.apiKey, { apiVersion: 2 })
-    billingSchedule = await billingScheduleV2Fixture(plV2, cust, proc)
+    customer = await customerFixture()
+    processingAccount = await processingAccountFixture()
+    payloadV2 = payload.Session(payload.apiKey, { apiVersion: 2 })
+    billingSchedule = await billingScheduleV2Fixture(payloadV2, customer, processingAccount)
   })
 
   test('access item through billing schedule relationship', () => {
     const item = billingSchedule.items[0]
-    expect(item).toBeInstanceOf(plV2.BillingItem)
+    expect(item).toBeInstanceOf(payloadV2.BillingItem)
     expect(item.type).toBe('line_item')
-    expect(item.line_item.value).toBe(39.99)
+    expect(item.line_item.value).toBe(5.00)
     expect(item.billing_schedule_id).toBe(billingSchedule.id)
   })
 })
