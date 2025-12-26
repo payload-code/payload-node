@@ -11,12 +11,7 @@ import {
   billingScheduleV2Fixture,
 } from './__fixtures__/billing'
 
-const BASE_UNSELECTABLE = [
-  'APIKey',
-  'AccessToken',
-  'ClientToken',
-  'OAuthToken',
-]
+const BASE_UNSELECTABLE = ['APIKey', 'AccessToken', 'ClientToken', 'OAuthToken']
 
 const V1_ONLY_OBJECTS = [
   'Customer',
@@ -28,7 +23,6 @@ const V1_ONLY_OBJECTS = [
   'ChargeItem',
   'PaymentItem',
   'LegalEntity',
-  'PaymentLink',
   'PaymentActivation',
   'AppSettings',
 ]
@@ -56,7 +50,9 @@ const SHARED_OBJECTS = [
   'BillingSchedule',
   'Invoice',
   'ProcessingSettings',
+  'ProcessingRule',
   'ProcessingAgreement',
+  'PaymentLink',
   'Intent',
   'Entity',
   'CheckFront',
@@ -167,9 +163,9 @@ describe('Test Account', () => {
   })
 
   test('get processing account', async () => {
-    expect(await payload.ProcessingAccount.get(processingAccount.id)).toBeInstanceOf(
-      payload.ProcessingAccount,
-    )
+    expect(
+      await payload.ProcessingAccount.get(processingAccount.id),
+    ).toBeInstanceOf(payload.ProcessingAccount)
   })
 
   test('paging and ordering', async () => {
@@ -222,7 +218,7 @@ describe('Test BillingSchedule and BillingCharge (V1 API)', () => {
   test('access charge through billing schedule relationship', () => {
     const charge = billingSchedule.charges[0]
     expect(charge).toBeInstanceOf(payload.BillingCharge)
-    expect(charge.amount).toBe(5.00)
+    expect(charge.amount).toBe(5.0)
     expect(charge.billing_schedule_id).toBe(billingSchedule.id)
   })
 })
@@ -237,14 +233,18 @@ describe('Test BillingSchedule and BillingItem (V2 API)', () => {
     customer = await customerFixture()
     processingAccount = await processingAccountFixture()
     payloadV2 = payload.Session(payload.apiKey, { apiVersion: 2 })
-    billingSchedule = await billingScheduleV2Fixture(payloadV2, customer, processingAccount)
+    billingSchedule = await billingScheduleV2Fixture(
+      payloadV2,
+      customer,
+      processingAccount,
+    )
   })
 
   test('access item through billing schedule relationship', () => {
     const item = billingSchedule.items[0]
     expect(item).toBeInstanceOf(payloadV2.BillingItem)
     expect(item.type).toBe('line_item')
-    expect(item.line_item.value).toBe(5.00)
+    expect(item.line_item.value).toBe(5.0)
     expect(item.billing_schedule_id).toBe(billingSchedule.id)
   })
 })

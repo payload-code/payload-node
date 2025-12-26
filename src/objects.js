@@ -153,6 +153,10 @@ export class WebhookLog extends Armrest.Model {}
 
 export class PaymentActivation extends Armrest.Model {}
 
+export class ProcessingRule extends Armrest.Model {
+  static spec = { object: 'processing_rule' }
+}
+
 // Introduced in API v2
 export class Profile extends Armrest.Model {
   static spec = { object: 'profile' }
