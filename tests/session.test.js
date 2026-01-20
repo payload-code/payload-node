@@ -8,65 +8,33 @@ describe('PayloadArmrest.Session', () => {
       expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
     })
 
-    describe('Valid API Version Formats', () => {
+    describe('Falsy values (should not set header)', () => {
       test.each([
-        ['v1'],
-        ['v2'],
-        ['v1.0'],
-        ['v2.0'],
-        ['v2.1'],
-        ['v2.5'],
-        ['v10'],
-        ['v10.0'],
-        ['v10.5'],
-        ['v99'],
-        ['v99.99'],
-      ])('accepts valid format: %s', (version) => {
-        const session = payload.Session('test-key', { apiVersion: version })
-        expect(session.defaultHeaders['X-API-Version']).toBe(version)
-      })
-    })
-
-    describe('Invalid API Version Formats', () => {
-      test.each([
-        ['2', 'missing v prefix'],
-        ['version2', 'invalid prefix'],
-        ['v', 'no version number'],
-        ['v.', 'no version number after dot'],
-        ['v2.', 'trailing dot'],
-        ['.2', 'no v prefix, starts with dot'],
-        ['v2.2.2', 'too many version parts'],
-        ['v-2', 'invalid character'],
-        ['v2.0.1', 'too many version parts'],
-        ['V2', 'uppercase v'],
-        ['v 2', 'space in version'],
-        ['v2.0.0', 'too many version parts'],
-        ['v2a', 'letter after number'],
-        ['v2.0a', 'letter after minor version'],
-      ])('rejects invalid format: %s (%s)', (version, description) => {
-        const session = payload.Session('test-key', { apiVersion: version })
+        [null, 'null'],
+        [undefined, 'undefined'],
+        ['', 'empty string'],
+        [0, 'zero'],
+        [false, 'false'],
+      ])('does not set header when apiVersion is %s', (value, description) => {
+        const session = payload.Session('test-key', { apiVersion: value })
         expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
       })
     })
 
-    test('does not set header when apiVersion is null', () => {
-      const session = payload.Session('test-key', { apiVersion: null })
-      expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
-    })
-
-    test('does not set header when apiVersion is undefined', () => {
-      const session = payload.Session('test-key', { apiVersion: undefined })
-      expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
-    })
-
-    test('does not set header when apiVersion is a number', () => {
-      const session = payload.Session('test-key', { apiVersion: 2 })
-      expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
-    })
-
-    test('does not set header when apiVersion is empty string', () => {
-      const session = payload.Session('test-key', { apiVersion: '' })
-      expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
+    describe('Values passed through (backend will throw error if invalid format)', () => {
+      test.each([
+        ['v1', 'valid string format'],
+        ['v2', 'valid string format'],
+        ['v2.0', 'valid string format with minor version'],
+        ['v2.1-beta', 'valid string format with minor version and suffix'],
+        [2, 'number'],
+        [1, 'number'],
+        ['invalid', 'invalid string format'],
+        ['2', 'numeric string without v prefix'],
+      ])('passes through apiVersion: %s (%s)', (value, description) => {
+        const session = payload.Session('test-key', { apiVersion: value })
+        expect(session.defaultHeaders['X-API-Version']).toBe(value)
+      })
     })
 
     test('does not set header with empty options object', () => {
