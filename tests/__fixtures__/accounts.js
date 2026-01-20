@@ -1,47 +1,54 @@
+import { faker } from '@faker-js/faker'
 import payload from '../../src/payload'
 
 export function customerFixture() {
   return payload.create(
     payload.Customer({
-      email: 'customer@example.com',
-      name: 'Customer Account',
+      email: faker.internet.email(),
+      name: faker.person.fullName(),
     }),
   )
 }
 
 export function processingAccountFixture() {
+  const contactName = faker.person.fullName()
+  const contactEmail = faker.internet.email()
+  const ownerName = faker.person.fullName()
+  const ownerEmail = faker.internet.email()
+
   return payload.create(
     payload.ProcessingAccount({
-      name: 'Processing Account',
+      name: faker.company.name(),
       legal_entity: {
-        legal_name: 'Test',
+        legal_name: faker.company.name(),
         type: 'INDIVIDUAL_SOLE_PROPRIETORSHIP',
-        ein: '23 423 4234',
-        street_address: '123 Example St',
-        unit_number: 'Suite 1',
-        city: 'New York',
-        state_province: 'NY',
-        state_incorporated: 'NY',
-        postal_code: '11238',
-        phone_number: '(111) 222-3333',
-        website: 'https://payload.com',
+        country: 'US',
+        ein: faker.finance.routingNumber(),
+        street_address: faker.location.streetAddress(),
+        unit_number: faker.location.secondaryAddress(),
+        city: faker.location.city(),
+        state_province: faker.location.state({ abbreviated: true }),
+        state_incorporated: faker.location.state({ abbreviated: true }),
+        postal_code: faker.location.zipCode(),
+        phone_number: faker.phone.number('(###) ###-####'),
+        website: faker.internet.url(),
         start_date: '05/01/2015',
-        contact_name: 'Test Person',
-        contact_email: 'test.person@example.com',
-        contact_title: 'VP',
+        contact_name: contactName,
+        contact_email: contactEmail,
+        contact_title: faker.person.jobTitle(),
         owners: {
-          full_name: 'Test Person',
-          email: 'test.person@example.com',
-          ssn: '234 23 4234',
-          birth_date: '06/20/1985',
-          title: 'CEO',
+          full_name: ownerName,
+          email: ownerEmail,
+          ssn: faker.finance.routingNumber(),
+          birth_date: faker.date.birthdate({ min: 18, max: 65, mode: 'age' }).toLocaleDateString('en-US'),
+          title: faker.person.jobTitle(),
           ownership: '100',
-          street_address: '4455 Carver Woods Drive, Suite 200',
-          unit_number: '2408',
-          city: 'Cincinnati',
-          state_province: 'OH',
-          postal_code: '45242',
-          phone_number: '(111) 222-3333',
+          street_address: faker.location.streetAddress(),
+          unit_number: faker.location.secondaryAddress(),
+          city: faker.location.city(),
+          state_province: faker.location.state({ abbreviated: true }),
+          postal_code: faker.location.zipCode(),
+          phone_number: faker.phone.number('(###) ###-####'),
           type: 'owner',
         },
       },
@@ -55,6 +62,57 @@ export function processingAccountFixture() {
           },
         }),
       ],
+    }),
+  )
+}
+
+export function customerV2Fixture(session) {
+  return session.create(
+    session.Account({
+      type: 'customer',
+      name: faker.person.fullName(),
+      contact_details: {
+        email: faker.internet.email(),
+      },
+    }),
+  )
+}
+
+export function processingAccountV2Fixture(session) {
+  const contactName = faker.person.fullName()
+  const contactEmail = faker.internet.email()
+
+  return session.create(
+    session.Account({
+      type: 'processing',
+      name: faker.company.name(),
+      entity: {
+        type: 'business',
+        legal_name: faker.company.name(),
+        country: 'US',
+        tax_id: { value: faker.finance.routingNumber() },
+        address: {
+          address_line_1: faker.location.streetAddress(),
+          address_line_2: faker.location.secondaryAddress(),
+          city: faker.location.city(),
+          state_province: faker.location.state({ abbreviated: true }),
+          postal_code: faker.location.zipCode(),
+        },
+        phone_number: faker.phone.number('###-###-####'),
+        business: {
+          category: 'real_estate',
+          structure: 'llc',
+          website: faker.internet.url(),
+          formation: { state_province: faker.location.state({ abbreviated: true }), date: '2019-10-01' },
+          primary_contact: {
+            name: contactName,
+            email: contactEmail,
+          },
+        },
+      },
+      processing: {
+        default_category: 'real_estate',
+      },
     }),
   )
 }

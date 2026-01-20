@@ -39,10 +39,17 @@ import payload from 'payload-api'
 To authenticate with the Payload API, you'll need a live or test API key. API
 keys are accessible from within the Payload dashboard.
 
+Create a Session:
 ```javascript
 import payload from 'payload-api'
 
-const pl = payload.Session('secret_key_3bW9JMZtPVDOfFNzwRdfE')
+// V1 API (default)
+const pl = payload.Session('secret_key_12345')
+// or explicitly specify V1
+const plV1 = payload.Session('secret_key_12345', { apiVersion: 'v1' })
+
+// V2 API
+const plV2 = payload.Session('secret_key_12345', { apiVersion: 'v2' })
 ```
 
 ### Creating an Object

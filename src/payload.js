@@ -4,6 +4,23 @@ import * as exceptions from './exceptions'
 
 const URL = 'https://api.payload.com'
 
-const payload = new Armrest(URL).register(objects).register(exceptions)
+class PayloadArmrest extends Armrest {
+  Session(apiKey, options = {}) {
+    const opts = options ?? {}
+    const defaultHeaders = {}
+
+    if (opts.apiVersion) defaultHeaders['X-API-Version'] = opts.apiVersion
+
+    const session = super.Session(apiKey, {
+      defaultHeaders,
+    })
+
+    return session
+  }
+}
+
+const payload = new PayloadArmrest(URL)
+payload.register(objects)
+payload.register(exceptions)
 
 export default payload

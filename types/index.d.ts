@@ -89,6 +89,31 @@ declare module 'payload-api' {
         class Webhook extends ARMObject {}
 
         class WebhookLog extends ARMObject {}
+
+        // Introduced in API v2
+        class Profile extends ARMObject {}
+
+        class BillingItem extends ARMObject {}
+
+        class Intent extends ARMObject {}
+
+        class InvoiceItem extends ARMObject {}
+
+        class PaymentAllocation extends ARMObject {}
+
+        class Entity extends ARMObject {}
+
+        class Stakeholder extends ARMObject {}
+
+        class ProcessingAgreement extends ARMObject {}
+
+        class Transfer extends ARMObject {}
+
+        class TransactionOperation extends ARMObject {}
+
+        class CheckFront extends ARMObject {}
+
+        class CheckBack extends ARMObject {}
     }
 
     export default pl
