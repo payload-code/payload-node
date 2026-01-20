@@ -2,7 +2,8 @@ import payload from '../../src/payload'
 import { faker } from '@faker-js/faker'
 
 function isV2(session) {
-  return session.defaultHeaders?.['X-API-Version'] === 2
+  const version = session.defaultHeaders?.['X-API-Version']
+  return version === 'v2' || version?.startsWith('v2.')
 }
 
 export function cardPaymentFixture(session, processingAccount) {

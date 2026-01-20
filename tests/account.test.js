@@ -120,7 +120,7 @@ describe('Test Account (V2 API)', () => {
   let payloadV2
 
   beforeAll(() => {
-    payloadV2 = payload.Session(payload.apiKey, { apiVersion: 2 })
+    payloadV2 = payload.Session(payload.apiKey, { apiVersion: 'v2' })
   })
 
   test('create customer account', async () => {

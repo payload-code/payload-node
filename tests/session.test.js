@@ -8,14 +8,45 @@ describe('PayloadArmrest.Session', () => {
       expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
     })
 
-    test('sets X-API-Version to 1 when explicitly set', () => {
-      const session = payload.Session('test-key', { apiVersion: 1 })
-      expect(session.defaultHeaders['X-API-Version']).toBe(1)
+    describe('Valid API Version Formats', () => {
+      test.each([
+        ['v1'],
+        ['v2'],
+        ['v1.0'],
+        ['v2.0'],
+        ['v2.1'],
+        ['v2.5'],
+        ['v10'],
+        ['v10.0'],
+        ['v10.5'],
+        ['v99'],
+        ['v99.99'],
+      ])('accepts valid format: %s', (version) => {
+        const session = payload.Session('test-key', { apiVersion: version })
+        expect(session.defaultHeaders['X-API-Version']).toBe(version)
+      })
     })
 
-    test('sets X-API-Version to 2 when explicitly set', () => {
-      const session = payload.Session('test-key', { apiVersion: 2 })
-      expect(session.defaultHeaders['X-API-Version']).toBe(2)
+    describe('Invalid API Version Formats', () => {
+      test.each([
+        ['2', 'missing v prefix'],
+        ['version2', 'invalid prefix'],
+        ['v', 'no version number'],
+        ['v.', 'no version number after dot'],
+        ['v2.', 'trailing dot'],
+        ['.2', 'no v prefix, starts with dot'],
+        ['v2.2.2', 'too many version parts'],
+        ['v-2', 'invalid character'],
+        ['v2.0.1', 'too many version parts'],
+        ['V2', 'uppercase v'],
+        ['v 2', 'space in version'],
+        ['v2.0.0', 'too many version parts'],
+        ['v2a', 'letter after number'],
+        ['v2.0a', 'letter after minor version'],
+      ])('rejects invalid format: %s (%s)', (version, description) => {
+        const session = payload.Session('test-key', { apiVersion: version })
+        expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
+      })
     })
 
     test('does not set header when apiVersion is null', () => {
@@ -25,6 +56,16 @@ describe('PayloadArmrest.Session', () => {
 
     test('does not set header when apiVersion is undefined', () => {
       const session = payload.Session('test-key', { apiVersion: undefined })
+      expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
+    })
+
+    test('does not set header when apiVersion is a number', () => {
+      const session = payload.Session('test-key', { apiVersion: 2 })
+      expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
+    })
+
+    test('does not set header when apiVersion is empty string', () => {
+      const session = payload.Session('test-key', { apiVersion: '' })
       expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
     })
 
@@ -40,10 +81,10 @@ describe('PayloadArmrest.Session', () => {
 
     test('ignores extra properties in options', () => {
       const session = payload.Session('test-key', {
-        apiVersion: 2,
+        apiVersion: 'v2',
         someOtherProp: 'value',
       })
-      expect(session.defaultHeaders['X-API-Version']).toBe(2)
+      expect(session.defaultHeaders['X-API-Version']).toBe('v2')
       expect(session.defaultHeaders).not.toHaveProperty('someOtherProp')
       expect(session).not.toHaveProperty('someOtherProp')
     })
@@ -53,14 +94,14 @@ describe('PayloadArmrest.Session', () => {
     test('calls super.Session with correct arguments', () => {
       const spy = jest.spyOn(Armrest.prototype, 'Session')
       const apiKey = 'test-key-123'
-      const options = { apiVersion: 2 }
+      const options = { apiVersion: 'v2' }
 
       payload.Session(apiKey, options)
 
       expect(spy).toHaveBeenCalledTimes(1)
       expect(spy).toHaveBeenCalledWith(apiKey, {
         defaultHeaders: {
-          'X-API-Version': 2,
+          'X-API-Version': 'v2',
         },
       })
 
@@ -68,8 +109,8 @@ describe('PayloadArmrest.Session', () => {
     })
 
     test('session inherits correct API URL from PayloadArmrest instance', () => {
-      const sessionV1 = payload.Session('test-key', { apiVersion: 1 })
-      const sessionV2 = payload.Session('test-key', { apiVersion: 2 })
+      const sessionV1 = payload.Session('test-key', { apiVersion: 'v1' })
+      const sessionV2 = payload.Session('test-key', { apiVersion: 'v2' })
 
       // Both sessions should use the same API URL from the PayloadArmrest instance
       expect(sessionV1.apiUrl).toBe(payload.apiUrl)
@@ -84,7 +125,7 @@ describe('PayloadArmrest.Session', () => {
       // Temporarily set a different API URL
       payload.apiUrl = testApiUrl
 
-      const session = payload.Session('test-key', { apiVersion: 2 })
+      const session = payload.Session('test-key', { apiVersion: 'v2' })
       expect(session.apiUrl).toBe(testApiUrl)
 
       payload.apiUrl = originalApiUrl
@@ -92,16 +133,16 @@ describe('PayloadArmrest.Session', () => {
 
     test('session has correct apiKey', () => {
       const apiKey = 'my-secret-key'
-      const session = payload.Session(apiKey, { apiVersion: 1 })
+      const session = payload.Session(apiKey, { apiVersion: 'v1' })
       expect(session.apiKey).toBe(apiKey)
     })
 
     test('sessions are isolated with different apiVersions', () => {
-      const sessionV1 = payload.Session('test-key', { apiVersion: 1 })
-      const sessionV2 = payload.Session('test-key', { apiVersion: 2 })
+      const sessionV1 = payload.Session('test-key', { apiVersion: 'v1' })
+      const sessionV2 = payload.Session('test-key', { apiVersion: 'v2' })
 
-      expect(sessionV1.defaultHeaders['X-API-Version']).toBe(1)
-      expect(sessionV2.defaultHeaders['X-API-Version']).toBe(2)
+      expect(sessionV1.defaultHeaders['X-API-Version']).toBe('v1')
+      expect(sessionV2.defaultHeaders['X-API-Version']).toBe('v2')
       expect(sessionV1).not.toBe(sessionV2)
     })
   })

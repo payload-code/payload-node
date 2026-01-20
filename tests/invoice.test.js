@@ -69,7 +69,7 @@ describe('Test Invoice (V2 API)', () => {
   let payloadV2
 
   beforeAll(async () => {
-    payloadV2 = payload.Session(payload.apiKey, { apiVersion: 2 })
+    payloadV2 = payload.Session(payload.apiKey, { apiVersion: 'v2' })
     customer = await customerV2Fixture(payloadV2)
     processingAccount = await processingAccountV2Fixture(payloadV2)
     invoice = await invoiceV2Fixture(payloadV2, processingAccount, customer)

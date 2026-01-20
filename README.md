@@ -46,10 +46,10 @@ import payload from 'payload-api'
 // V1 API (default)
 const pl = payload.Session('secret_key_12345')
 // or explicitly specify V1
-const plV1 = payload.Session('secret_key_12345', { apiVersion: 1 })
+const plV1 = payload.Session('secret_key_12345', { apiVersion: 'v1' })
 
 // V2 API
-const plV2 = payload.Session('secret_key_12345', { apiVersion: 2 })
+const plV2 = payload.Session('secret_key_12345', { apiVersion: 'v2' })
 ```
 
 ### Creating an Object

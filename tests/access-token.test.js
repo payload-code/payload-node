@@ -1,8 +1,8 @@
 import payload from '../src/payload'
 
 describe.each([
-  ['V1 API', payload, () => payload.Session(payload.apiKey, { apiVersion: 1 })],
-  ['V2 API', payload, () => payload.Session(payload.apiKey, { apiVersion: 2 })],
+  ['V1 API', payload, () => payload.Session(payload.apiKey, { apiVersion: 'v1' })],
+  ['V2 API', payload, () => payload.Session(payload.apiKey, { apiVersion: 'v2' })],
 ])('Test Access Token (%s)', (version, _, getSession) => {
   let pl
 

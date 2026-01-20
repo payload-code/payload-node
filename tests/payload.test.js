@@ -89,7 +89,7 @@ describe('Test All Endpoints (V2 API)', () => {
   )
 
   test.each(selectable)('select V2 objects', async (obj) => {
-    const payloadV2 = payload.Session(payload.apiKey, { apiVersion: 2 })
+    const payloadV2 = payload.Session(payload.apiKey, { apiVersion: 'v2' })
     const result = await payloadV2.select(payloadV2[obj]).limit(1).all()
     expect(Array.isArray(result)).toBe(true)
   })
@@ -232,7 +232,7 @@ describe('Test BillingSchedule and BillingItem (V2 API)', () => {
   beforeAll(async () => {
     customer = await customerFixture()
     processingAccount = await processingAccountFixture()
-    payloadV2 = payload.Session(payload.apiKey, { apiVersion: 2 })
+    payloadV2 = payload.Session(payload.apiKey, { apiVersion: 'v2' })
     billingSchedule = await billingScheduleV2Fixture(
       payloadV2,
       customer,
