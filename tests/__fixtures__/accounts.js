@@ -106,7 +106,6 @@ export function processingAccountV2Fixture(session) {
           formation: { state_province: faker.location.state({ abbreviated: true }), date: '2019-10-01' },
           primary_contact: {
             name: contactName,
-            title: faker.person.jobTitle(),
             email: contactEmail,
           },
         },

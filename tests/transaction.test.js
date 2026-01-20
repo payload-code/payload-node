@@ -27,7 +27,7 @@ describe('Test Transaction (V1 API)', () => {
         processing_id: processingAccount.id,
         payment_method: payload.Card({
           card_number: '4242 4242 4242 4242',
-          expiry: '12/25',
+          expiry: '12/35',
           card_code: '123',
         }),
       }),

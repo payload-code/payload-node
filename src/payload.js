@@ -3,16 +3,14 @@ import * as objects from './objects'
 import * as exceptions from './exceptions'
 
 const URL = 'https://api.payload.com'
-const DEFAULT_API_VERSION = 1
 
 class PayloadArmrest extends Armrest {
   Session(apiKey, options = {}) {
     const opts = options ?? {}
-    const apiVersion = opts.apiVersion ?? DEFAULT_API_VERSION
+    const defaultHeaders = {}
 
-    const defaultHeaders = {
-      'X-API-Version': apiVersion,
-    }
+    if (opts.apiVersion && typeof opts.apiVersion === 'number')
+      defaultHeaders['X-API-Version'] = opts.apiVersion
 
     const session = super.Session(apiKey, {
       defaultHeaders,

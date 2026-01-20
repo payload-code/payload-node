@@ -3,9 +3,9 @@ import Armrest from '@armrest/client'
 
 describe('PayloadArmrest.Session', () => {
   describe('API Version Configuration', () => {
-    test('defaults to API v1 when apiVersion not specified', () => {
+    test('does not set X-API-Version header when apiVersion not specified', () => {
       const session = payload.Session('test-key')
-      expect(session.defaultHeaders['X-API-Version']).toBe(1)
+      expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
     })
 
     test('sets X-API-Version to 1 when explicitly set', () => {
@@ -18,24 +18,24 @@ describe('PayloadArmrest.Session', () => {
       expect(session.defaultHeaders['X-API-Version']).toBe(2)
     })
 
-    test('uses default when apiVersion is null', () => {
+    test('does not set header when apiVersion is null', () => {
       const session = payload.Session('test-key', { apiVersion: null })
-      expect(session.defaultHeaders['X-API-Version']).toBe(1)
+      expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
     })
 
-    test('uses default when apiVersion is undefined', () => {
+    test('does not set header when apiVersion is undefined', () => {
       const session = payload.Session('test-key', { apiVersion: undefined })
-      expect(session.defaultHeaders['X-API-Version']).toBe(1)
+      expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
     })
 
-    test('handles empty options object', () => {
+    test('does not set header with empty options object', () => {
       const session = payload.Session('test-key', {})
-      expect(session.defaultHeaders['X-API-Version']).toBe(1)
+      expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
     })
 
-    test('handles null options gracefully', () => {
+    test('does not set header when options is null', () => {
       const session = payload.Session('test-key', null)
-      expect(session.defaultHeaders['X-API-Version']).toBe(1)
+      expect(session.defaultHeaders['X-API-Version']).toBeUndefined()
     })
 
     test('ignores extra properties in options', () => {

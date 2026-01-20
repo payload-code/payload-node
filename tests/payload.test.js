@@ -37,7 +37,7 @@ const V2_ONLY_OBJECTS = [
   'TransactionOperation',
 ]
 
-const SHARED_OBJECTS = [
+const COMMON_OBJECTS = [
   'Account',
   'Transaction',
   'Payment',
@@ -68,7 +68,7 @@ describe('Test All Endpoints (V1 API)', () => {
     ...V2_ONLY_OBJECTS,
     'BillingCharge', // Tested through billing schedule relationship below (V1)
   ]
-  const selectable = [...V1_ONLY_OBJECTS, ...SHARED_OBJECTS].filter(
+  const selectable = [...V1_ONLY_OBJECTS, ...COMMON_OBJECTS].filter(
     (n) => !unselectable.includes(n),
   )
 
@@ -84,7 +84,7 @@ describe('Test All Endpoints (V2 API)', () => {
     ...BASE_UNSELECTABLE,
     'BillingItem', // Tested through billing schedule relationship below (V2)
   ]
-  const selectable = [...V2_ONLY_OBJECTS, ...SHARED_OBJECTS].filter(
+  const selectable = [...V2_ONLY_OBJECTS, ...COMMON_OBJECTS].filter(
     (n) => !unselectable.includes(n),
   )
 
