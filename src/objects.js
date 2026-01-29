@@ -205,3 +205,7 @@ export class CheckFront extends Armrest.Model {
 export class CheckBack extends Armrest.Model {
   static spec = { object: 'check_back' }
 }
+
+export class Dispute extends Armrest.Model {
+  static spec = { object: 'dispute' }
+}
