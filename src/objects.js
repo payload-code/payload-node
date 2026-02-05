@@ -174,6 +174,10 @@ export class InvoiceItem extends Armrest.Model {
   static spec = { object: 'invoice_item' }
 }
 
+export class InvoiceAttachment extends Armrest.Model {
+  static spec = { object: 'invoice_attachment' }
+}
+
 export class PaymentAllocation extends Armrest.Model {
   static spec = { object: 'payment_allocation' }
 }
